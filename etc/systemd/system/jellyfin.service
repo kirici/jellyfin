@@ -1,0 +1,16 @@
+[Unit]
+Description=Jellyfin Service
+After=network-online.target
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+EnvironmentFile=/home/kirici/projects/jellyfin/.env
+WorkingDirectory=/home/kirici/projects/jellyfin
+ExecStart=/usr/bin/docker compose -f ./compose.yaml up
+ExecReload=/usr/bin/docker compose -f ./compose.yaml restart
+ExecStop=/usr/bin/docker compose -f ./compose.yaml down --timeout 59
+TimeoutStartSec=30
+TimeoutStopSec=60
+Restart=on-failure
+RestartSec=30
