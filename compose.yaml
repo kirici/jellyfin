@@ -1,0 +1,28 @@
+services:
+  jellyfin:
+    image: 'docker.io/jellyfin/jellyfin:10.10'
+    container_name: 'jellyfin'
+    user: 1000:1000
+    ports:
+      - '$PORT:$JELLYFIN_PORT'
+    volumes:
+      - 'jellyfin-config:/config'
+      - 'jellyfin-cache:/cache'
+      - type: bind
+        source: './config.json'
+        target: '/jellyfin/jellyfin-web/config.json:ro'
+        read_only: true
+      - type: bind
+        source: /home/kirici/Videos/Movies
+        target: /jellyfin/Movies
+        read_only: true
+    # Already handled by systemd
+    # restart: 'unless-stopped'
+    # Already handled by systemd
+    # logging:
+    #   driver: journald
+    #   options:
+    #     tag: 'jellyfin'
+volumes:
+  jellyfin-config:
+  jellyfin-cache:
